@@ -9,7 +9,6 @@ import "./Home.css";
 
 function Home(){
     return(
-        <EthProvider>
         <div id="App" >
           <div className="container">
             <Intro />
@@ -21,7 +20,6 @@ function Home(){
             <Footer />
           </div>
         </div>
-      </EthProvider>
     )
 }
 
