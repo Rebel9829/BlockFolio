@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { EthProvider } from "./contexts/EthContext";
 import Form from "./components/Form";
-import Home from "./Home";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <EthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/form" element={<Form />} />
           </Routes>
         </Router>
