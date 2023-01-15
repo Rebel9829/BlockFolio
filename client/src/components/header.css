@@ -1,0 +1,122 @@
+/* Header CSS */
+a {
+    cursor: pointer;
+  }
+  .go-to-profile:hover {
+    background-color: rgb(218, 231, 235);
+  }
+  .header {
+      display: block;
+      height:auto;
+    }
+    .head-blue {
+      background-color: #28282e;
+      width: 100%;
+      height: 70px;
+      float: left;
+    }
+    .head-text {
+      margin: auto 12% auto 17.5%;
+      padding: 1%;
+      font-size: 2rem;
+    }
+    .nav-container {
+      margin-left: 17.5%;
+    }
+    .nav-item {
+      padding-left: 8%;
+      white-space: nowrap;
+      text-overflow: clip;
+    }
+    .logo {
+        margin-top: 0.5%;
+        margin-right: 5%;
+        color: aliceblue;
+    }
+    .logo h1{
+        font-size: 4.5em;
+        font-style: italic;
+        font-family: 'Great Vibes', cursive;
+    }
+    .nav-link {
+      color: white;
+      font-size: 2em;
+      margin-right: 30px;
+    }
+    
+    .nav-link:hover {
+      color: rgb(131, 131, 244);
+    }
+    .title-small {
+      width: 100%;
+      height: 45px;
+      text-align: center;
+      font-size: 1.4rem;
+      display: none;
+    }
+    .button-small {
+      display: none;
+    }
+    @media only screen and (max-width: 1400px) {
+      .nav-item {
+        padding-left: 10%;
+      }
+    }
+    @media only screen and (max-width: 1300px) {
+      .nav-item {
+        padding-left: 6%;
+      }
+    }
+    @media only screen and (max-width: 1200px) {
+      .nav-item {
+        padding-left: 4%;
+      }
+    }
+    @media only screen and (max-width: 991.5px) {
+
+      .button-small {
+        display: block;
+      }
+      .title-small {
+        background-color: white;
+        display: flex;
+      }
+      .logo-small {
+        display: block;
+        margin: auto 2% auto 45%;
+    
+      }
+      .nav-container {
+        background-color: #28282e;
+        margin: 0;
+        position: relative;
+        z-index: 10;
+      }
+      .dropdown-menu {
+        background-color: white;
+      }
+      .navbar-toggler {
+        background-color: white;
+        font-size: 2em;
+      }
+    }
+  
+    .three-dots {
+      width: 35px;
+      height: 35px;
+      float: right;
+      cursor: pointer;
+      color: #FCC;
+      padding-top: 5px;
+      padding-left: 5px;
+    }
+    .three-dots:hover {
+      border-radius: 100%;
+      background-color: rgb(218, 231, 235);
+    }
+    .three-dot-menu {
+      font-size: 20px;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 50;
+      line-height: 32px;
+    }
