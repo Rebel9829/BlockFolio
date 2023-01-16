@@ -100,9 +100,9 @@ export default function Form() {
                 required
                 fullWidth
                 id="cname"
-                label="Comapny Name"
+                label="Company Name"
                 name="cname"
-                autoComplete="Comapny Name"
+                autoComplete="Company Name"
                 autoFocus
               />
               <TextField
@@ -110,9 +110,9 @@ export default function Form() {
                 required
                 fullWidth
                 id="cid"
-                label="Comapny ID"
+                label="Company ID"
                 name="cid"
-                autoComplete="Comapny ID"
+                autoComplete="Company ID"
                 autoFocus
               />
               <TextField
