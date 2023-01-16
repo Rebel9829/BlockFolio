@@ -192,6 +192,36 @@ h41 {
     display: flex;
 }
 
+.card{
+    margin: auto 20%;
+    border-radius: 20px;
+}
+.card-header{
+    font-size: 2.5em;
+    background-color: #0f76b1;
+    color: white;
+}
+.card-body{
+    padding: 3%;
+}
+.card_table{
+    width: 100%;
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+.card_table th{
+    padding: 8px;
+}
+.card_buttons{
+    padding-right: 5%;
+    text-align: right;
+    display: flex;
+    float: right;
+}
+.btn {
+    font-size: 1.8em;
+}
+
 @media only screen and (max-width: 1500px) {
     .box1{
         align-items: center;
@@ -222,6 +252,9 @@ h41 {
     .right2{
         width: 100%;
     }
+    .card{
+        margin: auto 10%;
+    }
   }
   @media only screen and (max-width: 1000px) {
     .left1{
@@ -232,7 +265,19 @@ h41 {
     .insum{
         display: none;
     }
+    .card{
+        margin: auto 30px;
+    }
     .left1{
         padding-left: 15%;
     }
   }
+  @media only screen and (max-width: 650px) {
+    .cardsi{
+        display: block;
+    }
+  }
+
+.modal-body{
+    font-size: 2em;
+}
