@@ -1,0 +1,239 @@
+.container1 {
+    height: 100%;
+    width: 100%;
+}
+
+.box1 {
+    height: 800px;
+    width: 100%;
+    background-image: linear-gradient(to right, #0f76b1 , #2A2A72);
+}
+
+.box2 {
+    margin-top: 20px;
+    height: 50%;
+    width: 100%;
+    display: flex;
+}
+
+.left1 {
+    margin-top: 100px;
+    border-radius: 30px;
+    float: left;
+    width: 50%;
+    height: 300px;
+}
+
+.right1 {
+    float: right;
+    width: 50%;
+    height: 300px;
+    
+}
+
+.left2 {
+    float: left;
+    width: 60%;
+    height: 400px;
+}
+
+.right2 {
+    float: right;
+    width: 40%;
+    height: 400px;
+
+}
+
+.table1 {
+    width: 90%;
+    margin: 40px 0 0px 20px;
+    border-collapse: collapse;
+    background-color: rgba(217, 219, 221, 0.696);
+    border-radius: 20px;
+}
+.table1 th {
+    text-align: center;
+    color: black;
+    width: 100px;
+    padding: 25px;
+    font-size: 20px;
+}
+
+.table1 td {
+    text-align: center;
+    color: black;
+    width: 100px;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.table1 tr{
+    border-bottom: 1px solid black;
+}
+
+.table1 tr:last-child{
+    border:none;
+}   
+.wrapper input {
+    box-sizing: border-box;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.wrapper {
+    display: flex;
+    margin: 120px 50px 0 0;
+    padding: 50px;
+    float: right;
+    height: 40px;
+    font-size: 0;
+    transform: translateY(-50%);
+}
+.search {
+    padding:0px 0 10px 20px;
+    font-size: 20px;
+    width: 500px;
+    height: 50px;
+    border: 1px solid darken(white, 30%);
+    border-radius: 20px 0 0 20px;
+}
+
+.submit {
+    cursor: pointer;
+    border: none;
+    background: url(./search.png) no-repeat center center, black;
+    background-size: 35px 35px;
+    border-radius: 0 20px 20px 0;
+    padding: 10px 25px;
+    display: inline-block;
+    width: 100px;
+    height: 42px;
+}
+
+.search::placeholder {
+    font-size: 20px;
+}
+
+p1 {
+    font-size: 30px;
+    font-weight: 800;
+    background-image: radial-gradient(circle, #2c2a2a, #282727);
+    color: rgb(232, 226, 226);
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-style: oblique;
+}
+
+p2 {
+    margin: 80px 30px 0 20px;
+    max-width: 200px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+    color: rgb(232, 226, 226);
+    background-image: radial-gradient(circle, #2c2a2a, #282727);
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-style: oblique;
+}
+
+.tren_stocks {
+    text-align: center;
+    margin: 30px 0px 0px 20px;
+    height: 400px;
+}
+
+
+.page-contain {
+    display: flex;
+    height: 300px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.data-card {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: .5em;
+    text-decoration: none;
+    background: white;
+    margin: 1em;
+    padding: 2.75em 2.5em;
+    box-shadow: 0 1.5em 2.5em -.5em rgba(#000000, .1);
+    transition: transform .45s ease, background .45s ease;
+}
+
+h31 {
+    color: #2E3C40;
+    font-size: 3.5em;
+    font-weight: 600;
+    line-height: 1;
+    padding-bottom: .5em;
+    margin: 0 0 0.142857143em;
+    border-bottom: 2px solid #753BBD;
+    transition: color .45s ease, border .45s ease;
+}
+
+h41 {
+    color: #627084;
+    text-transform: uppercase;
+    font-size: 1.125em;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    margin: 0 0 1.777777778em;
+    transition: color .45s ease;
+}
+
+.cardsi {
+    margin: 60px 20px 0px 0px;
+    display: flex;
+}
+
+@media only screen and (max-width: 1500px) {
+    .box1{
+        align-items: center;
+        height: 500px;
+    }
+    .left1{
+        width: 100%;
+        padding-left: 20%;
+        height: 300px;
+    }
+    .right1{
+        height: 100px;
+        width: 100%;
+    }
+    .wrapper{
+        margin: 0;
+        float: none;
+        justify-content: center;
+    }
+    .box2{
+        align-items: center;
+        height: auto;
+        display: block;
+    }
+    .left2{
+        width: 100%;
+    }
+    .right2{
+        width: 100%;
+    }
+  }
+  @media only screen and (max-width: 1000px) {
+    .left1{
+        padding-left: 5%;
+    }
+  }
+  @media only screen and (max-width: 800px) {
+    .insum{
+        display: none;
+    }
+    .left1{
+        padding-left: 15%;
+    }
+  }
