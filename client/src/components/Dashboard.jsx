@@ -58,6 +58,9 @@ export default function Dashboard() {
   const [value, setValue] = useState();
   const [showCard, setShowCard] = useState(false);
   const [data, setData] = useState("");
+  const [contra, setContract] = useState();
+  const [accoun, setAccounts] = useState();
+  const [com, setCompanies] = useState();
   const style = {
     control: (base) => ({
       ...base,
@@ -77,47 +80,115 @@ export default function Dashboard() {
         try {
           address = artifact.networks[networkID].address;
           contract = new web3.eth.Contract(abi, address);
+          setContract(contract);
+          setAccounts(accounts);
         } catch (err) {
           console.log("HI");
           console.error(err);
         }
         const getdata = async () => {
           var d = await contract.methods
-            .companiesData()
+            .my_investments(accounts[0])
             .call({ from: accounts[0] });
-          //   console.log(d);
+          // console.log(d);
           var s = `<tr>
-                  <th>COMPANY</th>
-                  <th>NO. OF SHARES</th>
-                  <th>PRICE</th>
-                  <th>% CHANGE</th>
+                  <th>StockID</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Buy Price</th>
                 </tr>`;
           d.forEach(function (company) {
             s +=
               `<tr>
+              <td>` +
+              company.company_id +
+              ` </td>
+                    
                     <td>` +
-              company.name +
+              company.stocks_owned +
               ` </td>
                     <td>` +
-              company.number_of_shares +
-              ` </td>
-                    <td>` +
-              company.curr_stock_price +
+              company.buy_price +
               `</td>
                     <td>{2}</td>
                   </tr>`;
           });
-          console.log(s);
-          setData(d);
+
+          // console.log(s);
+
           document.getElementById("portfolio").innerHTML = s;
         };
-        // getdata();
+
+        const trendingStocks = async () => {
+          var trend = await contract.methods
+            .companiesData()
+            .call({ from: accounts[0] });
+          setCompanies(trend);
+          var content = `<tr>
+                      <th>StockID</th>
+                      <th>COMPANY</th>
+                      <th>PRICE</th>
+                      <th>LISTING PRICE</th>
+                    </tr>`;
+          for (var i = 0; i < Math.min(5, trend.length); i++) {
+            var company = trend[i];
+            content +=
+              `<tr>
+              <td>` +
+              company.company_id +
+              ` </td>
+                        <td>` +
+              company.name +
+              ` </td>
+                        <td>` +
+              company.curr_stock_price +
+              ` </td>
+                        <td>` +
+              company.list_price +
+              `</td>
+                      </tr>`;
+          }
+          setData(trend);
+          document.getElementById("trending").innerHTML = content;
+        };
+        trendingStocks();
+        getdata();
       } else {
         console.log("problem here");
       }
     };
-    // func();
+    func();
   }, []);
+  const [formData, setFormData] = useState({
+    type: "",
+    price: "",
+    quantity: "",
+  });
+  function placeOrder(e) {
+    e.preventDefault();
+    var ty = document.querySelector(
+      'input[name="inlineRadioOptions"]:checked'
+    ).value;
+    var b = 0;
+
+    var p = parseInt(document.getElementById("price").value);
+    var q = parseInt(document.getElementById("quantity").value);
+    var cid = value.company_id;
+    var money = p * q;
+    console.log(ty);
+
+    if (ty === "sell") {
+      b = 1;
+      money = 0;
+      contra.methods
+        .add_order(cid, p, q, b)
+        .send({ from: accoun[0], value: Web3.utils.toWei(money.toString()) });
+    } else {
+      contra.methods
+        .add_order(cid, p, q, b)
+        .send({ from: accoun[0], value: Web3.utils.toWei(money.toString()) });
+    }
+  }
   return (
     <div>
       <div className="container1">
@@ -148,15 +219,15 @@ export default function Dashboard() {
                 <Select
                   name="accounts"
                   styles={style}
-                  options={options}
+                  options={data}
                   value={value}
-                  onFocus={()=>setShowCard(false)}
+                  onFocus={() => setShowCard(false)}
                   onChange={(e) => {
                     setShowCard(true);
                     setValue(e);
                   }}
-                  getOptionLabel={(option) => option.accountName}
-                  getOptionValue={(option) => option.accountName}
+                  getOptionLabel={(option) => option.name}
+                  getOptionValue={(option) => option}
                 />
               </div>
               <input className="submit" type="submit" value=" " />
@@ -224,7 +295,7 @@ export default function Dashboard() {
                   aria-hidden="true"
                 >
                   <div className="modal-dialog">
-                    <form onSubmit="">
+                    <form>
                       <div className="modal-content">
                         <div className="modal-header">
                           <h2 className="modal-title" id="staticBackdropLabel">
@@ -245,6 +316,12 @@ export default function Dashboard() {
                                   class="form-check-input"
                                   type="radio"
                                   name="inlineRadioOptions"
+                                  onChange={(e) => {
+                                    setFormData({
+                                      ...data,
+                                      type: e.target.value,
+                                    });
+                                  }}
                                   id="femaleGender"
                                   value="buy"
                                 />
@@ -260,6 +337,12 @@ export default function Dashboard() {
                                 <input
                                   class="form-check-input"
                                   type="radio"
+                                  onChange={(e) => {
+                                    setFormData({
+                                      ...data,
+                                      type: e.target.value,
+                                    });
+                                  }}
                                   name="inlineRadioOptions"
                                   id="maleGender"
                                   value="sell"
@@ -280,6 +363,12 @@ export default function Dashboard() {
                                 <input
                                   type="text"
                                   id="price"
+                                  onChange={(e) => {
+                                    setFormData({
+                                      ...data,
+                                      price: e.target.value,
+                                    });
+                                  }}
                                   class="form-control form-control-lg"
                                 />
                                 <label class="form-label" for="price">
@@ -292,6 +381,12 @@ export default function Dashboard() {
                                 <input
                                   type="tel"
                                   id="quantity"
+                                  onChange={(e) => {
+                                    setFormData({
+                                      ...data,
+                                      quantity: e.target.value,
+                                    });
+                                  }}
                                   class="form-control form-control-lg"
                                 />
                                 <label class="form-label" for="quantity">
@@ -309,7 +404,11 @@ export default function Dashboard() {
                           >
                             Cancel
                           </button>
-                          <button type="submit" className="btn btn-primary">
+                          <button
+                            type="submit"
+                            onClick={placeOrder}
+                            className="btn btn-primary"
+                          >
                             Submit
                           </button>
                         </div>
@@ -326,74 +425,14 @@ export default function Dashboard() {
           <div className="left2">
             <div className="tren_stocks">
               <p1>Your Investments</p1>
-              <table className="table1" id="portfolio">
-                <tr>
-                  <th>COMPANY</th>
-                  <th>PRICE</th>
-                  <th>% CHANGE</th>
-                </tr>
-                <tr>
-                  <td>Google</td>
-                  <td>20</td>
-                  <td>1500</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>Twitter</td>
-                  <td>25</td>
-                  <td>1000</td>
-                  <td>20</td>
-                </tr>
-                <tr>
-                  <td>Meta</td>
-                  <td>30</td>
-                  <td>1200</td>
-                  <td>15</td>
-                </tr>
-                <tr>
-                  <td>Google</td>
-                  <td>20</td>
-                  <td>1500</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>Twitter</td>
-                  <td>25</td>
-                  <td>1000</td>
-                  <td>20</td>
-                </tr>
-                <tr>
-                  <td>Meta</td>
-                  <td>30</td>
-                  <td>1200</td>
-                  <td>15</td>
-                </tr>
-                <tr>
-                  <td>Google</td>
-                  <td>20</td>
-                  <td>1500</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>Twitter</td>
-                  <td>25</td>
-                  <td>1000</td>
-                  <td>20</td>
-                </tr>
-                <tr>
-                  <td>Meta</td>
-                  <td>30</td>
-                  <td>1200</td>
-                  <td>15</td>
-                </tr>
-              </table>
+              <table className="table1" id="portfolio"></table>
             </div>
           </div>
           <div className="right2">
             <div className="tren_stocks">
               <p1>Trending Stocks</p1>
-              <table className="table1">
-                <tr>
+              <table className="table1" id="trending">
+                {/* <tr>
                   <th>COMPANY</th>
                   <th>PRICE</th>
                   <th>% CHANGE</th>
@@ -412,7 +451,7 @@ export default function Dashboard() {
                   <td>Meta</td>
                   <td>1200</td>
                   <td>15</td>
-                </tr>
+                </tr> */}
               </table>
             </div>
           </div>
