@@ -96,6 +96,7 @@ contract MyContract {
             buy_count:0});
     count_listed++;
     companies.push(listed[_company_id]);
+    add_order(_company_id,_list_price,_number_of_shares,1);
     users_list[msg.sender].my_owned.push(listed[_company_id]);
   }
 
