@@ -27,6 +27,16 @@ contract MyContract {
     uint sell_count;
     uint buy_count;
   }
+  function stringsEquals(string memory s1, string memory s2) private pure returns (bool) {
+    bytes memory b1 = bytes(s1);
+    bytes memory b2 = bytes(s2);
+    uint256 l1 = b1.length;
+    if (l1 != b2.length) return false;
+    for (uint256 i=0; i<l1; i++) {
+        if (b1[i] != b2[i]) return false;
+    }
+    return true;
+}
   struct investment{
     string company_id;
     uint stocks_owned;
@@ -37,7 +47,7 @@ contract MyContract {
     uint num_invested;
     uint num_listed;
     investment[]my_invests;
-    mapping(int=>company)owned; 
+    company[]my_owned; 
   }
   company[] public companies;
   function companiesData() public returns( company [] memory){
@@ -68,7 +78,12 @@ contract MyContract {
       }
     }
   }
-
+  function my_investments(address _user_address) public returns(investment[] memory){
+    return users_list[_user_address].my_invests;
+  }
+  function my_companies(address _user_address) public returns(company[] memory){
+    return users_list[_user_address].my_owned;
+  }
   function list_company(string memory _company_name,string memory _company_id,uint _number_of_shares,uint _list_price,uint _list_value)public{
     listed[_company_id]=company({name:_company_name,
             company_id:_company_id,
@@ -81,6 +96,7 @@ contract MyContract {
             buy_count:0});
     count_listed++;
     companies.push(listed[_company_id]);
+    users_list[msg.sender].my_owned.push(listed[_company_id]);
   }
 
   function determine_price(string memory _company_id) public returns (uint,uint){
@@ -125,15 +141,14 @@ contract MyContract {
   }
 
 
-  function fulfil(order memory _to_fulfil,uint _price)public{
+  function fulfil(order memory _to_fulfil,uint _price,string memory _company_id)public{
     if(_to_fulfil.order_type==0){
       /// buy order
       uint refund=(_to_fulfil.offer_price-_price)*_to_fulfil.number_of_stocks;
       // send refund to _to_fulfil.user_address
       address addr=_to_fulfil.user_address;
       sendViaCall(payable(addr),refund);
-      
-      
+   
     }
     else{
       // sell order
@@ -158,7 +173,25 @@ contract MyContract {
           }
           b+=_num1;
           listed[_company_id].buy_count-=_num1;
-          fulfil(order(orders[_company_id][_i-1].offer_price,orders[_company_id][_i-1].user_address,_num1,orders[_company_id][_i-1].order_type),_price);
+          
+
+
+          // ///****************************************************************************************** */
+          bool found=false;
+          for(uint _j=0;_j<users_list[orders[_company_id][_i].user_address].num_invested;_j++){
+            if(stringsEquals(users_list[orders[_company_id][_i].user_address].my_invests[_j].company_id,_company_id)){
+              found=true;
+              users_list[orders[_company_id][_i].user_address].my_invests[_j].stocks_owned+=_num1;
+            }
+          }
+          if(!found){
+            investment memory _tmpi=investment(_company_id,_num1,_price);
+            users_list[orders[_company_id][_i].user_address].my_invests.push(_tmpi);
+            users_list[orders[_company_id][_i].user_address].num_invested++;
+          }
+
+          // //*************************************************************************** */
+          fulfil(order(orders[_company_id][_i-1].offer_price,orders[_company_id][_i-1].user_address,_num1,orders[_company_id][_i-1].order_type),_price,_company_id);
           if(_num1==orders[_company_id][_i-1].number_of_stocks){
             uint _ln=orders[_company_id].length;
             orders[_company_id][_i-1]=orders[_company_id][_ln-1];
@@ -178,7 +211,23 @@ contract MyContract {
           }
           s+=_num1;
           listed[_company_id].sell_count-=_num1;
-          fulfil(order(orders[_company_id][_i-1].offer_price,orders[_company_id][_i-1].user_address,_num1,orders[_company_id][_i-1].order_type),_price);
+
+
+          // ////************************************************************************************ */
+          for(uint _j=0;_j<users_list[orders[_company_id][_i].user_address].num_invested;_j++){
+            if(stringsEquals(users_list[orders[_company_id][_i].user_address].my_invests[_j].company_id,_company_id)){
+              users_list[orders[_company_id][_i].user_address].my_invests[_j].stocks_owned-=_num1;
+              if(users_list[orders[_company_id][_i].user_address].my_invests[_j].stocks_owned==0){
+                uint _ll=users_list[orders[_company_id][_i].user_address].my_invests.length;
+                users_list[orders[_company_id][_i].user_address].my_invests[_j]=users_list[orders[_company_id][_i].user_address].my_invests[_ll-1];
+                users_list[orders[_company_id][_i].user_address].my_invests.pop();
+                users_list[orders[_company_id][_i].user_address].num_invested--;
+              }
+            }
+          }
+          // ////////////********************************************************************************* */
+
+          fulfil(order(orders[_company_id][_i-1].offer_price,orders[_company_id][_i-1].user_address,_num1,orders[_company_id][_i-1].order_type),_price,_company_id);
           if(_num1==orders[_company_id][_i-1].number_of_stocks){
             uint _ln=orders[_company_id].length;
             orders[_company_id][_i-1]=orders[_company_id][_ln-1];
