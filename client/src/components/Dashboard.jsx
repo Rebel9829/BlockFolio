@@ -2,10 +2,33 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./Dashboard.css";
 import Web3 from "web3";
-import { set } from "mongoose";
 // import $ from "jquery";
 
 const options = [
+  {
+    sortCode: "55-77-42",
+    accountNumber: "08488234",
+    accountType: "Savings Account",
+    accountName: "DEF Sam",
+  },
+  {
+    sortCode: "12-43-98",
+    accountNumber: "12365432",
+    accountType: "Savings Account",
+    accountName: "GHI Cena",
+  },
+  {
+    sortCode: "87-20-51",
+    accountNumber: "76491234",
+    accountType: "Savings Account",
+    accountName: "JKL Pandey",
+  },
+  {
+    sortCode: "56-73-39",
+    accountNumber: "09865479",
+    accountType: "Savings Account",
+    accountName: "ABC Singh",
+  },
   {
     sortCode: "55-77-42",
     accountNumber: "08488234",
@@ -88,12 +111,12 @@ export default function Dashboard() {
           setData(d);
           document.getElementById("portfolio").innerHTML = s;
         };
-        getdata();
+        // getdata();
       } else {
         console.log("problem here");
       }
     };
-    func();
+    // func();
   }, []);
   return (
     <div>
@@ -125,15 +148,15 @@ export default function Dashboard() {
                 <Select
                   name="accounts"
                   styles={style}
-                  options={data}
+                  options={options}
                   value={value}
+                  onFocus={()=>setShowCard(false)}
                   onChange={(e) => {
                     setShowCard(true);
-                    console.log(e);
                     setValue(e);
                   }}
-                  getOptionLabel={(option) => option.name}
-                  getOptionValue={(option) => option.name}
+                  getOptionLabel={(option) => option.accountName}
+                  getOptionValue={(option) => option.accountName}
                 />
               </div>
               <input className="submit" type="submit" value=" " />
@@ -304,7 +327,12 @@ export default function Dashboard() {
             <div className="tren_stocks">
               <p1>Your Investments</p1>
               <table className="table1" id="portfolio">
-                {/* <tr>
+                <tr>
+                  <th>COMPANY</th>
+                  <th>PRICE</th>
+                  <th>% CHANGE</th>
+                </tr>
+                <tr>
                   <td>Google</td>
                   <td>20</td>
                   <td>1500</td>
@@ -321,7 +349,43 @@ export default function Dashboard() {
                   <td>30</td>
                   <td>1200</td>
                   <td>15</td>
-                </tr> */}
+                </tr>
+                <tr>
+                  <td>Google</td>
+                  <td>20</td>
+                  <td>1500</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>Twitter</td>
+                  <td>25</td>
+                  <td>1000</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td>Meta</td>
+                  <td>30</td>
+                  <td>1200</td>
+                  <td>15</td>
+                </tr>
+                <tr>
+                  <td>Google</td>
+                  <td>20</td>
+                  <td>1500</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>Twitter</td>
+                  <td>25</td>
+                  <td>1000</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td>Meta</td>
+                  <td>30</td>
+                  <td>1200</td>
+                  <td>15</td>
+                </tr>
               </table>
             </div>
           </div>

@@ -18,7 +18,7 @@ function Header(props) {
                                         <a href="/" className="nav-link" aria-current="page">DASHBOARD</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="">MY COMPANIES</a>
+                                        <a className="nav-link" href="/comp">MY COMPANIES</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/form">RAISE FUNDS</a>
