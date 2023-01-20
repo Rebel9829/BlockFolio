@@ -10,7 +10,7 @@ import "./Home.css";
 function Home(){
     return(
         <div id="App" >
-          <div className="container">
+          <div className = "container">
             <Intro />
             <hr />
             <Setup />
